@@ -1,0 +1,8 @@
+{
+  "editor.fontSize": 20,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.formatOnSave": true,
+  "python.pythonPath": "env\\Scripts\\python.exe",
+  "python.formatting.provider": "black"
+}
