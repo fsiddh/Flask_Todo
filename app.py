@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -16,9 +16,20 @@ class Todo(db.Model):
         return "<Task %r>" % self.id
 
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+@app.route("/", methods=["POST", "GET"])
+def index():
+    if request.method == "POST":
+        task_content = request.form["content"]
+        new_task = Todo(content=task_content)
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect("/")
+        except:
+            return "There was an error adding your new task!"
+    else:
+        tasks = Todo.query.order_by(Todo.date_created).all()
+        return render_template("index.html")
 
 
 if __name__ == "__main__":
